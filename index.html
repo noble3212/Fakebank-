@@ -1,0 +1,1031 @@
+<!--
+AUREON FINANCIAL — EXPANDED FULL DEMO DASHBOARD
+Features Added:
+- Login screen
+- Sidebar navigation
+- Multi-page UI sections
+- Transfer system
+- Virtual cards
+- Security center
+- Analytics
+- Notifications
+- Transaction generator
+- Fake ACH transfers
+- Settings panel
+- Responsive mobile UI
+- Dark glassmorphism fintech design
+
+SAVE AS:
+index.html
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Aureon Financial</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:#07111f;
+  color:white;
+  overflow-x:hidden;
+}
+
+/* BACKGROUND */
+
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+  radial-gradient(circle at top left,#214d86 0%,transparent 25%),
+  radial-gradient(circle at bottom right,#122b4b 0%,transparent 30%),
+  linear-gradient(135deg,#07111f,#091827,#0a1628);
+  z-index:-2;
+}
+
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  backdrop-filter:blur(80px);
+  z-index:-1;
+}
+
+/* LOGIN */
+
+.login-screen{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#07111f;
+  z-index:9999;
+}
+
+.login-box{
+  width:400px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:30px;
+  padding:40px;
+  backdrop-filter:blur(25px);
+}
+
+.login-box h1{
+  font-size:34px;
+  margin-bottom:12px;
+}
+
+.login-box p{
+  color:#94a3b8;
+  margin-bottom:30px;
+}
+
+.input{
+  width:100%;
+  padding:16px;
+  margin-bottom:18px;
+  border:none;
+  outline:none;
+  border-radius:16px;
+  background:rgba(255,255,255,0.07);
+  color:white;
+  font-size:15px;
+}
+
+.login-btn{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:16px;
+  background:linear-gradient(135deg,#237bff,#4ba3ff);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.hidden{
+  display:none !important;
+}
+
+/* LAYOUT */
+
+.container{
+  display:flex;
+  min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  width:270px;
+  padding:30px 22px;
+  background:rgba(255,255,255,0.04);
+  border-right:1px solid rgba(255,255,255,0.06);
+  backdrop-filter:blur(30px);
+}
+
+.logo{
+  font-size:32px;
+  font-weight:800;
+  margin-bottom:50px;
+}
+
+.logo span{
+  color:#4ba3ff;
+}
+
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.nav-btn{
+  background:transparent;
+  border:none;
+  color:#cbd5e1;
+  text-align:left;
+  padding:16px;
+  border-radius:18px;
+  cursor:pointer;
+  transition:0.3s;
+  font-size:15px;
+}
+
+.nav-btn:hover{
+  background:rgba(255,255,255,0.08);
+}
+
+.nav-btn.active{
+  background:linear-gradient(135deg,#237bff,#4ba3ff);
+  color:white;
+  box-shadow:0 0 25px rgba(75,163,255,0.35);
+}
+
+/* MAIN */
+
+.main{
+  flex:1;
+  padding:35px;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:35px;
+}
+
+.topbar h1{
+  font-size:38px;
+}
+
+.topbar p{
+  color:#94a3b8;
+  margin-top:6px;
+}
+
+.profile{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.avatar{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#237bff,#4ba3ff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:24px;
+}
+
+/* CARDS */
+
+.card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:30px;
+  padding:28px;
+  backdrop-filter:blur(25px);
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  top:-60%;
+  right:-60%;
+  width:300px;
+  height:300px;
+  background:radial-gradient(circle,#4ba3ff22,transparent 70%);
+}
+
+.balance{
+  font-size:52px;
+  font-weight:800;
+  margin-top:10px;
+}
+
+.muted{
+  color:#94a3b8;
+}
+
+/* ACTION BUTTONS */
+
+.actions{
+  display:flex;
+  gap:14px;
+  margin-top:25px;
+}
+
+.btn{
+  flex:1;
+  padding:15px;
+  border:none;
+  border-radius:16px;
+  cursor:pointer;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.primary{
+  background:linear-gradient(135deg,#237bff,#4ba3ff);
+  color:white;
+}
+
+.secondary{
+  background:rgba(255,255,255,0.08);
+  color:white;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+/* CARD VISUAL */
+
+.bank-card{
+  margin-top:25px;
+  height:220px;
+  border-radius:28px;
+  padding:28px;
+  background:
+  linear-gradient(135deg,#237bff,#1f3e72);
+  position:relative;
+  overflow:hidden;
+}
+
+.bank-card::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+  radial-gradient(circle at top right,#ffffff22,transparent 30%);
+}
+
+.chip{
+  width:60px;
+  height:42px;
+  border-radius:10px;
+  background:rgba(255,255,255,0.35);
+  margin-bottom:35px;
+}
+
+.card-number{
+  letter-spacing:4px;
+  font-size:22px;
+  margin-bottom:25px;
+}
+
+.card-footer{
+  display:flex;
+  justify-content:space-between;
+}
+
+/* TRANSACTIONS */
+
+.transactions{
+  margin-top:24px;
+}
+
+.transaction{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 0;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.transaction:last-child{
+  border-bottom:none;
+}
+
+.tx-left{
+  display:flex;
+  gap:15px;
+  align-items:center;
+}
+
+.tx-icon{
+  width:48px;
+  height:48px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.06);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.green{
+  color:#4cff9f;
+  font-weight:700;
+}
+
+.red{
+  color:#ff6e82;
+  font-weight:700;
+}
+
+/* PAGE SYSTEM */
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+/* TRANSFER */
+
+.transfer-form{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.transfer-form input{
+  padding:16px;
+  border:none;
+  outline:none;
+  border-radius:16px;
+  background:rgba(255,255,255,0.07);
+  color:white;
+}
+
+/* SECURITY */
+
+.security-item{
+  padding:18px;
+  margin-top:18px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.05);
+}
+
+/* SETTINGS */
+
+.setting{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 0;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+  .container{
+    flex-direction:column;
+  }
+
+  .sidebar{
+    width:100%;
+    border-right:none;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+
+  .nav{
+    flex-direction:row;
+    overflow:auto;
+  }
+
+  .main{
+    padding:20px;
+  }
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+
+<div class="login-screen" id="loginScreen">
+
+  <div class="login-box">
+
+    <h1>Aureon<span style="color:#4ba3ff;">.</span></h1>
+
+    <p>Secure Financial Access</p>
+
+    <input class="input" placeholder="Email">
+    <input class="input" type="password" placeholder="Password">
+
+    <button class="login-btn" onclick="login()">
+      Sign In
+    </button>
+
+  </div>
+
+</div>
+
+<!-- APP -->
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      Aureon<span>.</span>
+    </div>
+
+    <div class="nav">
+
+      <button class="nav-btn active" onclick="showPage('dashboard',this)">
+        Dashboard
+      </button>
+
+      <button class="nav-btn" onclick="showPage('cards',this)">
+        Cards
+      </button>
+
+      <button class="nav-btn" onclick="showPage('transfer',this)">
+        Transfers
+      </button>
+
+      <button class="nav-btn" onclick="showPage('analytics',this)">
+        Analytics
+      </button>
+
+      <button class="nav-btn" onclick="showPage('security',this)">
+        Security
+      </button>
+
+      <button class="nav-btn" onclick="showPage('settings',this)">
+        Settings
+      </button>
+
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <!-- DASHBOARD -->
+
+    <section class="page active" id="dashboard">
+
+      <div class="topbar">
+
+        <div>
+          <h1>Dashboard</h1>
+          <p>Your finances are updating live.</p>
+        </div>
+
+        <div class="profile">
+          <div class="avatar">NF</div>
+        </div>
+
+      </div>
+
+      <div class="grid">
+
+        <div class="card">
+
+          <div class="muted">
+            Total Balance
+          </div>
+
+          <div class="balance" id="balance">
+            $24,980.12
+          </div>
+
+          <div class="actions">
+
+            <button class="btn primary" onclick="deposit()">
+              Add Funds
+            </button>
+
+            <button class="btn secondary" onclick="randomExpense()">
+              Simulate Expense
+            </button>
+
+          </div>
+
+          <div class="bank-card">
+
+            <div class="chip"></div>
+
+            <div class="card-number">
+              4821 2944 8301 2910
+            </div>
+
+            <div class="card-footer">
+              <div>
+                NOBLE
+              </div>
+
+              <div>
+                08/29
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="card">
+
+          <h2 style="margin-bottom:20px;">
+            Monthly Analytics
+          </h2>
+
+          <canvas id="chart"></canvas>
+
+        </div>
+
+      </div>
+
+      <div class="card transactions">
+
+        <h2>
+          Recent Activity
+        </h2>
+
+        <div id="transactions">
+
+          <div class="transaction">
+            <div class="tx-left">
+              <div class="tx-icon">💼</div>
+              <div>
+                <strong>Payroll Deposit</strong>
+                <div class="muted">Today</div>
+              </div>
+            </div>
+
+            <div class="green">
+              +$3,200
+            </div>
+          </div>
+
+          <div class="transaction">
+            <div class="tx-left">
+              <div class="tx-icon">⚡</div>
+              <div>
+                <strong>Utility Payment</strong>
+                <div class="muted">Yesterday</div>
+              </div>
+            </div>
+
+            <div class="red">
+              -$91
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- CARDS -->
+
+    <section class="page" id="cards">
+
+      <div class="topbar">
+        <div>
+          <h1>Cards</h1>
+          <p>Manage your virtual payment cards.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+
+        <div class="bank-card">
+          <div class="chip"></div>
+
+          <div class="card-number">
+            4821 2944 8301 2910
+          </div>
+
+          <div class="card-footer">
+            <div>PLATINUM</div>
+            <div>08/29</div>
+          </div>
+        </div>
+
+        <div class="bank-card" style="background:linear-gradient(135deg,#1d1d1d,#3a3a3a);">
+          <div class="chip"></div>
+
+          <div class="card-number">
+            5500 1290 4400 9182
+          </div>
+
+          <div class="card-footer">
+            <div>BLACK CARD</div>
+            <div>11/30</div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- TRANSFER -->
+
+    <section class="page" id="transfer">
+
+      <div class="topbar">
+        <div>
+          <h1>Transfers</h1>
+          <p>Move funds between accounts.</p>
+        </div>
+      </div>
+
+      <div class="card">
+
+        <div class="transfer-form">
+
+          <input placeholder="Recipient Name">
+
+          <input placeholder="Account Number">
+
+          <input placeholder="Routing Number">
+
+          <input placeholder="Transfer Amount">
+
+          <button class="btn primary" onclick="sendTransfer()">
+            Send Transfer
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ANALYTICS -->
+
+    <section class="page" id="analytics">
+
+      <div class="topbar">
+        <div>
+          <h1>Analytics</h1>
+          <p>Financial activity overview.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+
+        <div class="card">
+          <h2>Spending Categories</h2>
+          <canvas id="pie"></canvas>
+        </div>
+
+        <div class="card">
+          <h2>Growth</h2>
+          <canvas id="growth"></canvas>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- SECURITY -->
+
+    <section class="page" id="security">
+
+      <div class="topbar">
+        <div>
+          <h1>Security Center</h1>
+          <p>Monitor login activity and protection.</p>
+        </div>
+      </div>
+
+      <div class="card">
+
+        <div class="security-item">
+          <strong>Multi-Factor Authentication</strong>
+          <div class="muted">
+            Enabled
+          </div>
+        </div>
+
+        <div class="security-item">
+          <strong>Last Login</strong>
+          <div class="muted">
+            Seattle, Washington • Chrome
+          </div>
+        </div>
+
+        <div class="security-item">
+          <strong>Threat Monitoring</strong>
+          <div class="muted">
+            No suspicious activity detected
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- SETTINGS -->
+
+    <section class="page" id="settings">
+
+      <div class="topbar">
+        <div>
+          <h1>Settings</h1>
+          <p>Manage account preferences.</p>
+        </div>
+      </div>
+
+      <div class="card">
+
+        <div class="setting">
+          <span>Email Notifications</span>
+          <span>ON</span>
+        </div>
+
+        <div class="setting">
+          <span>Push Alerts</span>
+          <span>ON</span>
+        </div>
+
+        <div class="setting">
+          <span>Dark Appearance</span>
+          <span>ACTIVE</span>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+<script>
+
+/* LOGIN */
+
+function login(){
+  document.getElementById('loginScreen').classList.add('hidden');
+}
+
+/* PAGE NAVIGATION */
+
+function showPage(id,btn){
+
+  document.querySelectorAll('.page')
+    .forEach(page=>page.classList.remove('active'));
+
+  document.getElementById(id)
+    .classList.add('active');
+
+  document.querySelectorAll('.nav-btn')
+    .forEach(b=>b.classList.remove('active'));
+
+  btn.classList.add('active');
+
+}
+
+/* BALANCE */
+
+let balance = 24980.12;
+
+function updateBalance(){
+
+  document.getElementById('balance').innerText =
+    '$' + balance.toLocaleString(undefined,{
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    });
+
+}
+
+function deposit(){
+
+  const amount =
+    Math.floor(Math.random()*4000)+500;
+
+  balance += amount;
+
+  updateBalance();
+
+  addTransaction(
+    'Deposit',
+    '+' + amount,
+    'green',
+    '💰'
+  );
+
+}
+
+function randomExpense(){
+
+  const amount =
+    Math.floor(Math.random()*900)+20;
+
+  balance -= amount;
+
+  updateBalance();
+
+  addTransaction(
+    'Card Purchase',
+    '-' + amount,
+    'red',
+    '🛒'
+  );
+
+}
+
+/* TRANSACTIONS */
+
+function addTransaction(name,amount,color,icon){
+
+  const wrap =
+    document.getElementById('transactions');
+
+  const tx =
+    document.createElement('div');
+
+  tx.className='transaction';
+
+  tx.innerHTML = `
+    <div class="tx-left">
+      <div class="tx-icon">${icon}</div>
+      <div>
+        <strong>${name}</strong>
+        <div class="muted">Just now</div>
+      </div>
+    </div>
+
+    <div class="${color}">
+      ${amount}
+    </div>
+  `;
+
+  wrap.prepend(tx);
+
+}
+
+/* TRANSFER */
+
+function sendTransfer(){
+
+  const amount =
+    Math.floor(Math.random()*2000)+100;
+
+  balance -= amount;
+
+  updateBalance();
+
+  addTransaction(
+    'ACH Transfer',
+    '-' + amount,
+    'red',
+    '🏦'
+  );
+
+  alert('Transfer submitted successfully.');
+
+}
+
+/* CHARTS */
+
+new Chart(
+  document.getElementById('chart'),
+  {
+    type:'line',
+    data:{
+      labels:[
+        'Jan','Feb','Mar','Apr','May','Jun'
+      ],
+      datasets:[{
+        data:[
+          1200,2400,1900,3200,4100,3800
+        ],
+        borderColor:'#4ba3ff',
+        backgroundColor:'rgba(75,163,255,0.15)',
+        fill:true,
+        tension:0.4,
+        pointRadius:0
+      }]
+    },
+    options:{
+      plugins:{
+        legend:{display:false}
+      },
+      scales:{
+        x:{
+          ticks:{color:'#94a3b8'},
+          grid:{display:false}
+        },
+        y:{
+          ticks:{color:'#94a3b8'},
+          grid:{
+            color:'rgba(255,255,255,0.05)'
+          }
+        }
+      }
+    }
+  }
+);
+
+new Chart(
+  document.getElementById('pie'),
+  {
+    type:'doughnut',
+    data:{
+      labels:[
+        'Food',
+        'Bills',
+        'Shopping',
+        'Travel'
+      ],
+      datasets:[{
+        data:[
+          25,35,20,20
+        ],
+        backgroundColor:[
+          '#237bff',
+          '#4ba3ff',
+          '#1b4f9a',
+          '#7ab7ff'
+        ]
+      }]
+    }
+  }
+);
+
+new Chart(
+  document.getElementById('growth'),
+  {
+    type:'bar',
+    data:{
+      labels:[
+        '2019','2020','2021','2022','2023','2024'
+      ],
+      datasets:[{
+        data:[
+          12,19,25,32,40,51
+        ],
+        backgroundColor:'#4ba3ff'
+      }]
+    }
+  }
+);
+
+</script>
+
+</body>
+</html>
