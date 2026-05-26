@@ -1,19 +1,18 @@
 <!--
-AUREON FINANCIAL — EXPANDED FULL DEMO DASHBOARD
-Features Added:
-- Login screen
-- Sidebar navigation
-- Multi-page UI sections
+AUREON FINANCIAL — COMPLETE OVERHAUL
+Single-file fintech demo dashboard
+Features:
+- Animated login UX
+- Create account / forgot password
+- GSAP animations
+- Toast notification system
+- Security center expansion
+- Virtual card controls
+- Dashboard realism
+- Pending transactions
 - Transfer system
-- Virtual cards
-- Security center
 - Analytics
-- Notifications
-- Transaction generator
-- Fake ACH transfers
-- Settings panel
-- Responsive mobile UI
-- Dark glassmorphism fintech design
+- Responsive glassmorphism UI
 
 SAVE AS:
 index.html
@@ -22,14 +21,19 @@ index.html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Aureon Financial</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
 <style>
 
@@ -80,16 +84,16 @@ body::after{
 }
 
 .login-box{
-  width:400px;
+  width:420px;
   background:rgba(255,255,255,0.05);
   border:1px solid rgba(255,255,255,0.08);
-  border-radius:30px;
-  padding:40px;
-  backdrop-filter:blur(25px);
+  border-radius:32px;
+  padding:42px;
+  backdrop-filter:blur(30px);
 }
 
 .login-box h1{
-  font-size:34px;
+  font-size:38px;
   margin-bottom:12px;
 }
 
@@ -110,6 +114,29 @@ body::after{
   font-size:15px;
 }
 
+.password-wrap{
+  position:relative;
+}
+
+.show-pass{
+  position:absolute;
+  right:14px;
+  top:14px;
+  border:none;
+  background:transparent;
+  color:#8fbfff;
+  cursor:pointer;
+}
+
+.remember{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:22px;
+  color:#94a3b8;
+  font-size:13px;
+}
+
 .login-btn{
   width:100%;
   padding:16px;
@@ -122,11 +149,54 @@ body::after{
   font-size:15px;
 }
 
+.auth-links{
+  margin-top:20px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.auth-links a{
+  color:#8fbfff;
+  text-decoration:none;
+  font-size:14px;
+}
+
 .hidden{
   display:none !important;
 }
 
-/* LAYOUT */
+/* TOASTS */
+
+.toast-container{
+  position:fixed;
+  top:25px;
+  right:25px;
+  z-index:99999;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.toast{
+  min-width:300px;
+  padding:18px;
+  border-radius:18px;
+  background:rgba(12,20,35,0.9);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(20px);
+}
+
+.toast-title{
+  font-weight:700;
+  margin-bottom:5px;
+}
+
+.toast-text{
+  color:#94a3b8;
+  font-size:14px;
+}
+
+/* APP */
 
 .container{
   display:flex;
@@ -144,7 +214,7 @@ body::after{
 }
 
 .logo{
-  font-size:32px;
+  font-size:34px;
   font-weight:800;
   margin-bottom:50px;
 }
@@ -168,7 +238,6 @@ body::after{
   border-radius:18px;
   cursor:pointer;
   transition:0.3s;
-  font-size:15px;
 }
 
 .nav-btn:hover{
@@ -204,21 +273,50 @@ body::after{
   margin-top:6px;
 }
 
-.profile{
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-
 .avatar{
-  width:52px;
-  height:52px;
+  width:54px;
+  height:54px;
   border-radius:50%;
   background:linear-gradient(135deg,#237bff,#4ba3ff);
   display:flex;
   align-items:center;
   justify-content:center;
   font-weight:700;
+}
+
+.live-status{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:10px;
+}
+
+.live-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#4cff9f;
+  box-shadow:0 0 10px #4cff9f;
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+
+  0%{
+    transform:scale(1);
+    opacity:1;
+  }
+
+  50%{
+    transform:scale(1.5);
+    opacity:0.5;
+  }
+
+  100%{
+    transform:scale(1);
+    opacity:1;
+  }
+
 }
 
 /* GRID */
@@ -229,7 +327,7 @@ body::after{
   gap:24px;
 }
 
-/* CARDS */
+/* CARD */
 
 .card{
   background:rgba(255,255,255,0.05);
@@ -246,13 +344,13 @@ body::after{
   position:absolute;
   top:-60%;
   right:-60%;
-  width:300px;
-  height:300px;
+  width:320px;
+  height:320px;
   background:radial-gradient(circle,#4ba3ff22,transparent 70%);
 }
 
 .balance{
-  font-size:52px;
+  font-size:54px;
   font-weight:800;
   margin-top:10px;
 }
@@ -261,7 +359,7 @@ body::after{
   color:#94a3b8;
 }
 
-/* ACTION BUTTONS */
+/* BUTTONS */
 
 .actions{
   display:flex;
@@ -276,7 +374,6 @@ body::after{
   border-radius:16px;
   cursor:pointer;
   font-weight:600;
-  transition:0.3s;
 }
 
 .primary{
@@ -289,11 +386,7 @@ body::after{
   color:white;
 }
 
-.btn:hover{
-  transform:translateY(-2px);
-}
-
-/* CARD VISUAL */
+/* BANK CARD */
 
 .bank-card{
   margin-top:25px;
@@ -331,6 +424,28 @@ body::after{
 .card-footer{
   display:flex;
   justify-content:space-between;
+}
+
+/* CARD CONTROLS */
+
+.card-controls{
+  margin-top:24px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+
+.control{
+  padding:16px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.05);
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.control:hover{
+  transform:translateY(-3px);
+  background:rgba(255,255,255,0.08);
 }
 
 /* TRANSACTIONS */
@@ -374,6 +489,11 @@ body::after{
 
 .red{
   color:#ff6e82;
+  font-weight:700;
+}
+
+.pending{
+  color:#ffc857;
   font-weight:700;
 }
 
@@ -452,22 +572,65 @@ body::after{
 </head>
 <body>
 
+<!-- TOASTS -->
+
+<div class="toast-container" id="toastContainer"></div>
+
 <!-- LOGIN -->
 
 <div class="login-screen" id="loginScreen">
 
-  <div class="login-box">
+  <div class="login-box" id="loginBox">
 
     <h1>Aureon<span style="color:#4ba3ff;">.</span></h1>
 
     <p>Secure Financial Access</p>
 
     <input class="input" placeholder="Email">
-    <input class="input" type="password" placeholder="Password">
+
+    <div class="password-wrap">
+
+      <input
+        class="input"
+        id="passwordInput"
+        type="password"
+        placeholder="Password"
+      >
+
+      <button class="show-pass" onclick="togglePassword()">
+        Show
+      </button>
+
+    </div>
+
+    <div class="remember">
+
+      <label>
+        <input type="checkbox">
+        Remember Me
+      </label>
+
+      <span>
+        Secure Session
+      </span>
+
+    </div>
 
     <button class="login-btn" onclick="login()">
       Sign In
     </button>
+
+    <div class="auth-links">
+
+      <a href="#" onclick="openSignup()">
+        Create Account
+      </a>
+
+      <a href="#" onclick="forgotPassword()">
+        Forgot Password?
+      </a>
+
+    </div>
 
   </div>
 
@@ -526,12 +689,25 @@ body::after{
       <div class="topbar">
 
         <div>
+
           <h1>Dashboard</h1>
+
           <p>Your finances are updating live.</p>
+
+          <div class="live-status">
+
+            <div class="live-dot"></div>
+
+            <div class="muted">
+              Systems Operational
+            </div>
+
+          </div>
+
         </div>
 
-        <div class="profile">
-          <div class="avatar">NF</div>
+        <div class="avatar">
+          NF
         </div>
 
       </div>
@@ -555,7 +731,7 @@ body::after{
             </button>
 
             <button class="btn secondary" onclick="randomExpense()">
-              Simulate Expense
+              Merchant Sync
             </button>
 
           </div>
@@ -569,6 +745,7 @@ body::after{
             </div>
 
             <div class="card-footer">
+
               <div>
                 NOBLE
               </div>
@@ -576,6 +753,27 @@ body::after{
               <div>
                 08/29
               </div>
+
+            </div>
+
+          </div>
+
+          <div class="card-controls">
+
+            <div class="control" onclick="freezeCard()">
+              Freeze Card
+            </div>
+
+            <div class="control" onclick="revealCVV()">
+              Reveal CVV
+            </div>
+
+            <div class="control" onclick="toggleLimits()">
+              Spending Limits
+            </div>
+
+            <div class="control" onclick="newVirtualCard()">
+              New Virtual Card
             </div>
 
           </div>
@@ -603,31 +801,75 @@ body::after{
         <div id="transactions">
 
           <div class="transaction">
+
             <div class="tx-left">
+
               <div class="tx-icon">💼</div>
+
               <div>
+
                 <strong>Payroll Deposit</strong>
-                <div class="muted">Today</div>
+
+                <div class="muted">
+                  Today
+                </div>
+
               </div>
+
             </div>
 
             <div class="green">
               +$3,200
             </div>
+
           </div>
 
           <div class="transaction">
+
             <div class="tx-left">
+
               <div class="tx-icon">⚡</div>
+
               <div>
+
                 <strong>Utility Payment</strong>
-                <div class="muted">Yesterday</div>
+
+                <div class="muted">
+                  Yesterday
+                </div>
+
               </div>
+
             </div>
 
             <div class="red">
               -$91
             </div>
+
+          </div>
+
+          <div class="transaction">
+
+            <div class="tx-left">
+
+              <div class="tx-icon">⏳</div>
+
+              <div>
+
+                <strong>Pending Transfer</strong>
+
+                <div class="muted">
+                  Processing • ACH
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="pending">
+              Pending
+            </div>
+
           </div>
 
         </div>
@@ -641,15 +883,21 @@ body::after{
     <section class="page" id="cards">
 
       <div class="topbar">
+
         <div>
+
           <h1>Cards</h1>
+
           <p>Manage your virtual payment cards.</p>
+
         </div>
+
       </div>
 
       <div class="grid">
 
         <div class="bank-card">
+
           <div class="chip"></div>
 
           <div class="card-number">
@@ -657,12 +905,21 @@ body::after{
           </div>
 
           <div class="card-footer">
-            <div>PLATINUM</div>
-            <div>08/29</div>
+
+            <div>
+              PLATINUM
+            </div>
+
+            <div>
+              08/29
+            </div>
+
           </div>
+
         </div>
 
         <div class="bank-card" style="background:linear-gradient(135deg,#1d1d1d,#3a3a3a);">
+
           <div class="chip"></div>
 
           <div class="card-number">
@@ -670,9 +927,17 @@ body::after{
           </div>
 
           <div class="card-footer">
-            <div>BLACK CARD</div>
-            <div>11/30</div>
+
+            <div>
+              BLACK CARD
+            </div>
+
+            <div>
+              11/30
+            </div>
+
           </div>
+
         </div>
 
       </div>
@@ -684,10 +949,15 @@ body::after{
     <section class="page" id="transfer">
 
       <div class="topbar">
+
         <div>
+
           <h1>Transfers</h1>
+
           <p>Move funds between accounts.</p>
+
         </div>
+
       </div>
 
       <div class="card">
@@ -717,22 +987,37 @@ body::after{
     <section class="page" id="analytics">
 
       <div class="topbar">
+
         <div>
+
           <h1>Analytics</h1>
+
           <p>Financial activity overview.</p>
+
         </div>
+
       </div>
 
       <div class="grid">
 
         <div class="card">
-          <h2>Spending Categories</h2>
+
+          <h2>
+            Spending Categories
+          </h2>
+
           <canvas id="pie"></canvas>
+
         </div>
 
         <div class="card">
-          <h2>Growth</h2>
+
+          <h2>
+            Growth
+          </h2>
+
           <canvas id="growth"></canvas>
+
         </div>
 
       </div>
@@ -744,33 +1029,89 @@ body::after{
     <section class="page" id="security">
 
       <div class="topbar">
+
         <div>
+
           <h1>Security Center</h1>
+
           <p>Monitor login activity and protection.</p>
+
         </div>
+
       </div>
 
       <div class="card">
 
         <div class="security-item">
-          <strong>Multi-Factor Authentication</strong>
+
+          <strong>
+            Multi-Factor Authentication
+          </strong>
+
           <div class="muted">
             Enabled
           </div>
+
         </div>
 
         <div class="security-item">
-          <strong>Last Login</strong>
+
+          <strong>
+            Last Login
+          </strong>
+
           <div class="muted">
             Seattle, Washington • Chrome
           </div>
+
         </div>
 
         <div class="security-item">
-          <strong>Threat Monitoring</strong>
+
+          <strong>
+            Threat Monitoring
+          </strong>
+
           <div class="muted">
             No suspicious activity detected
           </div>
+
+        </div>
+
+        <div class="security-item">
+
+          <strong>
+            Trusted Devices
+          </strong>
+
+          <div class="muted">
+            Windows Desktop • iPhone 15 • iPad Pro
+          </div>
+
+        </div>
+
+        <div class="security-item">
+
+          <strong>
+            Recovery Codes
+          </strong>
+
+          <div class="muted">
+            Last generated 14 days ago
+          </div>
+
+        </div>
+
+        <div class="security-item">
+
+          <strong>
+            Session Activity
+          </strong>
+
+          <div class="muted">
+            3 active secure sessions
+          </div>
+
         </div>
 
       </div>
@@ -782,27 +1123,41 @@ body::after{
     <section class="page" id="settings">
 
       <div class="topbar">
+
         <div>
+
           <h1>Settings</h1>
+
           <p>Manage account preferences.</p>
+
         </div>
+
       </div>
 
       <div class="card">
 
         <div class="setting">
+
           <span>Email Notifications</span>
+
           <span>ON</span>
+
         </div>
 
         <div class="setting">
+
           <span>Push Alerts</span>
+
           <span>ON</span>
+
         </div>
 
         <div class="setting">
+
           <span>Dark Appearance</span>
+
           <span>ACTIVE</span>
+
         </div>
 
       </div>
@@ -815,13 +1170,81 @@ body::after{
 
 <script>
 
+/* PASSWORD */
+
+function togglePassword(){
+
+  const input =
+    document.getElementById('passwordInput');
+
+  if(input.type === 'password'){
+
+    input.type = 'text';
+
+  }else{
+
+    input.type = 'password';
+
+  }
+
+}
+
 /* LOGIN */
 
 function login(){
-  document.getElementById('loginScreen').classList.add('hidden');
+
+  gsap.to('#loginBox',{
+    y:-40,
+    opacity:0,
+    duration:0.6,
+    ease:'power2.out'
+  });
+
+  gsap.to('#loginScreen',{
+    opacity:0,
+    delay:0.3,
+    duration:0.6,
+    onComplete:()=>{
+
+      document
+        .getElementById('loginScreen')
+        .classList.add('hidden');
+
+      startDashboardAnimations();
+
+      showToast(
+        'Secure Login',
+        'Authentication completed successfully.'
+      );
+
+    }
+  });
+
 }
 
-/* PAGE NAVIGATION */
+/* SIGNUP */
+
+function openSignup(){
+
+  showToast(
+    'Registration',
+    'Account onboarding system initializing.'
+  );
+
+}
+
+/* PASSWORD */
+
+function forgotPassword(){
+
+  showToast(
+    'Password Recovery',
+    'Recovery link generated successfully.'
+  );
+
+}
+
+/* PAGE NAV */
 
 function showPage(id,btn){
 
@@ -835,6 +1258,70 @@ function showPage(id,btn){
     .forEach(b=>b.classList.remove('active'));
 
   btn.classList.add('active');
+
+}
+
+/* TOAST */
+
+function showToast(title,text){
+
+  const container =
+    document.getElementById('toastContainer');
+
+  const toast =
+    document.createElement('div');
+
+  toast.className='toast';
+
+  toast.innerHTML = `
+    <div class="toast-title">
+      ${title}
+    </div>
+
+    <div class="toast-text">
+      ${text}
+    </div>
+  `;
+
+  container.appendChild(toast);
+
+  gsap.from(toast,{
+    x:80,
+    opacity:0,
+    duration:0.5
+  });
+
+  setTimeout(()=>{
+
+    gsap.to(toast,{
+      x:80,
+      opacity:0,
+      duration:0.5,
+      onComplete:()=>{
+        toast.remove();
+      }
+    });
+
+  },4000);
+
+}
+
+/* DASHBOARD ANIMATIONS */
+
+function startDashboardAnimations(){
+
+  gsap.from('.card',{
+    opacity:0,
+    y:40,
+    duration:0.8,
+    stagger:0.12
+  });
+
+  gsap.from('.transaction',{
+    opacity:0,
+    x:-20,
+    stagger:0.08
+  });
 
 }
 
@@ -880,7 +1367,7 @@ function randomExpense(){
   updateBalance();
 
   addTransaction(
-    'Card Purchase',
+    'Merchant Sync',
     '-' + amount,
     'red',
     '🛒'
@@ -936,9 +1423,85 @@ function sendTransfer(){
     '🏦'
   );
 
-  alert('Transfer submitted successfully.');
+  showToast(
+    'Transfer Submitted',
+    'ACH transfer processing successfully.'
+  );
 
 }
+
+/* CARD FEATURES */
+
+function freezeCard(){
+
+  showToast(
+    'Card Frozen',
+    'Your virtual card has been temporarily disabled.'
+  );
+
+}
+
+function revealCVV(){
+
+  showToast(
+    'Security Verification',
+    'CVV: 482'
+  );
+
+}
+
+function toggleLimits(){
+
+  showToast(
+    'Limits Updated',
+    'Spending protection settings modified.'
+  );
+
+}
+
+function newVirtualCard(){
+
+  showToast(
+    'Virtual Card Created',
+    'New secure payment card generated.'
+  );
+
+}
+
+/* SMART NOTIFICATIONS */
+
+setInterval(()=>{
+
+  const alerts = [
+
+    [
+      'Deposit Received',
+      '$1,240 has been deposited.'
+    ],
+
+    [
+      'Security Alert',
+      'New device verification completed.'
+    ],
+
+    [
+      'Transfer Completed',
+      'ACH transfer finalized successfully.'
+    ],
+
+    [
+      'Card Activity',
+      'Card ending 2910 authorized.'
+    ]
+
+  ];
+
+  const random =
+    alerts[Math.floor(Math.random()*alerts.length)];
+
+  showToast(random[0],random[1]);
+
+},25000);
 
 /* CHARTS */
 
@@ -964,18 +1527,6 @@ new Chart(
     options:{
       plugins:{
         legend:{display:false}
-      },
-      scales:{
-        x:{
-          ticks:{color:'#94a3b8'},
-          grid:{display:false}
-        },
-        y:{
-          ticks:{color:'#94a3b8'},
-          grid:{
-            color:'rgba(255,255,255,0.05)'
-          }
-        }
       }
     }
   }
