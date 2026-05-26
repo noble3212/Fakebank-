@@ -1341,8 +1341,32 @@ function updateBalance(){
 
 function deposit(){
 
-  const amount =
-    Math.floor(Math.random()*4000)+500;
+  const input = prompt(
+    'Enter deposit amount:'
+  );
+
+  if(
+    input === null ||
+    input.trim() === ''
+  ){
+    return;
+  }
+
+  const amount = parseFloat(input);
+
+  if(
+    isNaN(amount) ||
+    amount <= 0
+  ){
+
+    showToast(
+      'Invalid Amount',
+      'Please enter a valid deposit amount.'
+    );
+
+    return;
+
+  }
 
   balance += amount;
 
@@ -1350,31 +1374,17 @@ function deposit(){
 
   addTransaction(
     'Deposit',
-    '+' + amount,
+    '+' + amount.toFixed(2),
     'green',
     '💰'
   );
 
-}
-
-function randomExpense(){
-
-  const amount =
-    Math.floor(Math.random()*900)+20;
-
-  balance -= amount;
-
-  updateBalance();
-
-  addTransaction(
-    'Merchant Sync',
-    '-' + amount,
-    'red',
-    '🛒'
+  showToast(
+    'Funds Added',
+    '$' + amount.toFixed(2) + ' deposited successfully.'
   );
 
 }
-
 /* TRANSACTIONS */
 
 function addTransaction(name,amount,color,icon){
