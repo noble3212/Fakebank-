@@ -3,3 +3,4 @@ This is a fake bank used to troll scammers working on fully fledging it out but 
 
 Link: https://noble3212.github.io/Fakebank-/
 
+Update: Fixed the notifcation handling system :3 
