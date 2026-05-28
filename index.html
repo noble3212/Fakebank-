@@ -1497,6 +1497,7 @@ function newVirtualCard(){
 
 /* SMART NOTIFICATIONS */
 
+// Changed interval from 25000 (25s) to 120000 (2 minutes) to prevent toast spamming
 setInterval(()=>{
 
   const alerts = [
@@ -1528,7 +1529,7 @@ setInterval(()=>{
 
   showToast(random[0],random[1]);
 
-},25000);
+},120000);
 
 /* CHARTS */
 
